@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+   <arg name="curve_constant" default="1.8" />
+   <arg name="max_speed" default="12" />
+   <arg name="min_speed" default="8" />
+
+   <node pkg="traffic_cone_race" type="traffic_cone_race10_cpp" name="traffic_cone_race10_cpp" output="screen">
+      <param name="curve_constant" value="$(arg curve_constant)" />
+      <param name="max_speed" value="$(arg max_speed)" />
+      <param name="min_speed" value="$(arg min_speed)" />
+   </node>
+</launch>

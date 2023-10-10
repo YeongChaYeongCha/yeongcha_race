@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+   <!-- voxel_size : 0.07 -->
+   <arg name="voxel_size" default="0.07" />
+   <arg name="num_neigbor_points" default="10" />
+   <arg name="std_multiplier" default="0.5" />
+   <arg name="max_iterations" default="350" />
+   <arg name="distance_threshold" default="0.12" />
+   <!-- search_radius : 0.055 | 0.06까진 괜찮으나 0.07은 딜레이 발생 -->
+   <arg name="search_radius" default="0.055" />
+   <!-- upsampling_radius : 0.055 | 0.06까진 괜찮으나 0.07은 딜레이 발생 -->
+   <arg name="upsampling_radius" default="0.055" />
+   <!-- upsampling_step_size : 0.005 | 0.055일 때 0.005 -->
+   <arg name="upsampling_step_size" default="0.010" />
+   <!-- upsampling 추가 전 : Traffic cone | Cluster Tolerance : 0.40 -->
+   <!--  Traffic cone | Cluster Tolerance : 0.40 -->
+   <arg name="cluster_tolerance" default="0.50" />
+   <!-- upsampling 추가 전 : Traffic cone | Min Cluster Size : 10 -->
+   <!--  Traffic cone | Min Cluster Size : 10 -->
+   <arg name="min_cluster_size" default="5" />
+   <!-- upsampling 추가 전 : Traffic cone | Max Cluster Size : 400 -->
+   <!-- Traffic cone | Max Cluster Size : 400 -->
+   <arg name="max_cluster_size" default="400" />
+
+   <node pkg="velo_filter" type="velo_filter_add" name="velo_filter_add" >
+      <param name="voxel_size" value="$(arg voxel_size)" />
+      <param name="num_neigbor_points" value="$(arg num_neigbor_points)" />
+      <param name="std_multiplier" value="$(arg std_multiplier)" />
+      <param name="max_iterations" value="$(arg max_iterations)" />
+      <param name="distance_threshold" value="$(arg distance_threshold)" />
+      <param name="search_radius" value="$(arg search_radius)" />
+      <param name="upsampling_radius" value="$(arg upsampling_radius)" />
+      <param name="upsampling_step_size" value="$(arg upsampling_step_size)" />
+   </node>
+
+   <node pkg="velo_filter" type="euclidean_node_u_turn" name="euclidean_node_u_turn" >
+      <param name="cluster_tolerance" value="$(arg cluster_tolerance)" />
+      <param name="min_cluster_size" value="$(arg min_cluster_size)" />
+      <param name="max_cluster_size" value="$(arg max_cluster_size)" />
+   </node>
+   <!--node type="rviz" name="rviz" pkg="rviz" args="-d $(find velo_filter)/rviz/clustering_boundingbox.rviz" output="log" respawn="true" /-->
+   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find velo_filter)/rviz/clustering_boundingbox_1.rviz" output="log" respawn="true" />
+
+   <!--통합-->
+   <!--node pkg="traffic_cone_race" type="u_turn_in_track" name="u_turn_in_track" output="screen" /-->
+   <node pkg="traffic_cone_race" type="u_turn1" name="u_turn1" output="screen" />
+   <node pkg="race" type="serial_control_node" name="serial_control_node" />
+</launch>

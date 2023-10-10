@@ -1,0 +1,11 @@
+<launch>
+   <!---arg name="voxel_size" default="0.1" /--->
+   <arg name="num_neigbor_points" default="10" />
+   <arg name="std_multiplier" default="0.5" />
+
+   <node pkg="velo_filter" type="velo_filter_node" name="velo_filter_node" output="screen">
+      <param name="voxel_size" value="$(arg voxel_size)" />
+      <param name="num_neigbor_points" value="$(arg num_neigbor_points)" />
+      <param name="std_multiplier" value="$(arg std_multiplier)" />
+   </node>
+</launch>

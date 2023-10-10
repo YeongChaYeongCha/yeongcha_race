@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+   <!-- voxel_size : 0.07 -->
+   <arg name="voxel_size" default="0.07" />
+   <arg name="num_neigbor_points" default="10" />
+   <arg name="std_multiplier" default="0.5" />
+   <arg name="max_iterations" default="350" />
+   <arg name="distance_threshold" default="0.12" />
+   <!-- search_radius : 0.055 | 0.06까진 괜찮으나 0.07은 딜레이 발생 -->
+   <arg name="search_radius" default="0.055" />
+   <!-- upsampling_radius : 0.055 | 0.06까진 괜찮으나 0.07은 딜레이 발생 -->
+   <arg name="upsampling_radius" default="0.055" />
+   <!-- upsampling_step_size : 0.005 | 0.055일 때 0.005 -->
+   <arg name="upsampling_step_size" default="0.010" />
+
+   <node pkg="velo_filter" type="velo_filter_add" name="velo_filter_add" output="screen">
+      <param name="voxel_size" value="$(arg voxel_size)" />
+      <param name="num_neigbor_points" value="$(arg num_neigbor_points)" />
+      <param name="std_multiplier" value="$(arg std_multiplier)" />
+      <param name="max_iterations" value="$(arg max_iterations)" />
+      <param name="distance_threshold" value="$(arg distance_threshold)" />
+      <param name="search_radius" value="$(arg search_radius)" />
+      <param name="upsampling_radius" value="$(arg upsampling_radius)" />
+      <param name="upsampling_step_size" value="$(arg upsampling_step_size)" />
+   </node>
+</launch>

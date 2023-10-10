@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+   <arg name="throttle" default="9" />
+   <arg name="drive_ratio" default="1.0" />
+
+   <node pkg="traffic_cone_race" type="traffic_cone_race1_cpp" name="traffic_cone_race1_cpp" output="screen">
+      <param name="throttle" value="$(arg throttle)" />
+      <param name="drive_ratio" value="$(arg drive_ratio)" />
+   </node>
+</launch>

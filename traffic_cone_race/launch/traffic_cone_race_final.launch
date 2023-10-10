@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+   <!-- voxel_size : 0.07 -->
+   <arg name="voxel_size" default="0.10" />
+   <arg name="num_neigbor_points" default="10" />
+   <arg name="std_multiplier" default="0.5" />
+   <arg name="max_iterations" default="350" />
+   <arg name="distance_threshold" default="0.12" />
+
+   <arg name="cluster_tolerance" default="0.50" />
+   <arg name="min_cluster_size" default="5" />
+   <arg name="max_cluster_size" default="400" />
+
+   <!-- 1.8 10 6 -->
+   <!-- 1.9 12 8 -->
+   <!-- 2.2 14 10 -->
+   <arg name="curve_constant" default="1.9" />
+   <arg name="max_speed" default="12" />
+   <arg name="min_speed" default="8" />
+
+   <node pkg="velo_filter" type="velo_filter_add" name="velo_filter_add" >
+      <param name="voxel_size" value="$(arg voxel_size)" />
+      <param name="num_neigbor_points" value="$(arg num_neigbor_points)" />
+      <param name="std_multiplier" value="$(arg std_multiplier)" />
+      <param name="max_iterations" value="$(arg max_iterations)" />
+      <param name="distance_threshold" value="$(arg distance_threshold)" />
+   </node>
+
+   <node pkg="velo_filter" type="euclidean_node" name="euclidean_node">
+      <param name="cluster_tolerance" value="$(arg cluster_tolerance)" />
+      <param name="min_cluster_size" value="$(arg min_cluster_size)" />
+      <param name="max_cluster_size" value="$(arg max_cluster_size)" />
+   </node>
+
+   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find velo_filter)/rviz/clustering_boundingbox_1.rviz" output="log" respawn="true" />
+
+   <node pkg="traffic_cone_race" type="traffic_cone_race10_cpp" name="traffic_cone_race10_cpp" output="screen">
+      <param name="curve_constant" value="$(arg curve_constant)" />
+      <param name="max_speed" value="$(arg max_speed)" />
+      <param name="min_speed" value="$(arg min_speed)" />
+   </node>
+
+   <node pkg="race" type="serial_control_node" name="serial_control_node" />
+</launch>
